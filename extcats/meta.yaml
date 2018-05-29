@@ -1,0 +1,53 @@
+{% set name = "extcats" %}
+{% set version = "1.9" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "6189f0227c36a4ba0514b8827094e220d961eb2318b163786f05d070dcd6db1e" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  noarch: python
+  number: 1
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - pymongo
+    - healpylite
+    - astropy
+    - pandas
+    - tqdm
+  run:
+    - python
+    - pymongo
+    - healpylite
+    - astropy
+    - pandas
+    - tqdm
+
+test:
+  imports:
+    - extcats
+
+about:
+  home: https://github.com/MatteoGiomi/extcats
+  license: UNKNOWN
+  license_family: OTHER
+  license_file: ''
+  summary: Tools to organize and query astronomical catalogs
+  description: ''
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''

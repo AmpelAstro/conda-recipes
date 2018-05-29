@@ -1,0 +1,46 @@
+{% set name = "graphitesend" %}
+{% set version = "0.10.0" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "828ce8a8eb39cc01235a14671793e60a7fef31bd4cd66dbc8bea638feaee297f" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  noarch: python
+  number: 0
+  entry_points:
+    - graphitesend = graphitesend.graphitesend:cli
+  script: 'python setup.py install '
+
+requirements:
+  host:
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - graphitesend
+  commands:
+    - graphitesend --help
+
+about:
+  home: https://github.com/daniellawrence/graphitesend
+  license: UNKNOWN
+  license_family: OTHER
+  license_file: ''
+  summary: A simple interface for sending metrics to Graphite
+  description: https://github.com/daniellawrence/graphitesend
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''

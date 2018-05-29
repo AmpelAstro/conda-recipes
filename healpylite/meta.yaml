@@ -1,0 +1,50 @@
+{% set name = "healpylite" %}
+{% set version = "0.1.1" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "8594769ff2fb256ae9fc89f905da7fae86fd257a305e20682ab6866b8e3f6b77" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://github.com/AmpelProject/{{ name }}/archive/v{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+  host:
+    - python
+    - numpy
+    - pytest-runner
+  run:
+    - python
+    - numpy
+
+test:
+  requires:
+    - pytest
+  imports:
+    - healpy.pixelfunc
+  #commands:
+  #  - pytest --pyargs healpy
+
+about:
+  home: https://github.com/AmpelProject/healpylite
+  license: GNU General Public License v2 or later (GPLv2+)
+  license_family: GPL
+  license_file: ''
+  summary: standalone healpy.pixelfunc
+  description: https://github.com/AmpelProject/healpylite
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
