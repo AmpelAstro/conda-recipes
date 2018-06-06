@@ -1,0 +1,95 @@
+{% set name = "zerorpc" %}
+{% set version = "0.6.1" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "10a6696f3d927a661f664c57d5083b1d454d153e4ebc89da09d5029d6fb5a091" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  noarch: python
+  number: 0
+  entry_points:
+    - zerorpc = zerorpc.cli:main
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - msgpack-python >=0.4.0
+    - pyzmq >=13.1.0
+    - future
+    - gevent >=1.1rc5
+  run:
+    - python
+    - msgpack-python >=0.4.0
+    - pyzmq >=13.1.0
+    - future
+    - gevent >=1.1rc5
+
+test:
+  imports:
+    - zerorpc
+  commands:
+    - zerorpc --help
+  requires:
+    - nose
+
+about:
+  home: https://github.com/0rpc/zerorpc-python
+  license: MIT License
+  license_family: MIT
+  license_file: ''
+  summary: zerorpc is a flexible RPC based on zeromq.
+  description: "zerorpc\r\n=======\r\n\r\n.. image:: https://travis-ci.org/0rpc/zerorpc-python.svg?branch=master\r\n    :target: https://travis-ci.org/0rpc/zerorpc-python\r\n\r\nMailing list: zerorpc@googlegroups.com\
+    \ (https://groups.google.com/d/forum/zerorpc)\r\n\r\n\r\nzerorpc is a flexible RPC implementation based on zeromq and messagepack. \r\nService APIs exposed with zerorpc are called \"zeroservices\".\r\
+    \n\r\nzerorpc can be used programmatically or from the command-line. It comes\r\nwith a convenient script, \"zerorpc\", allowing to:\r\n\r\n* expose Python modules without modifying a single line of\
+    \ code,\r\n* call those modules remotely through the command line.\r\n\r\nInstallation\r\n------------\r\n\r\nOn most systems, its a matter of::\r\n\r\n  $ pip install zerorpc\r\n\r\nDepending of the\
+    \ support from Gevent and PyZMQ on your system, you might need to install `libev` (for gevent) and `libzmq` (for pyzmq) with the development files.\r\n\r\nCreate a server with a one-liner\r\n--------------------------------\r\
+    \n\r\nLet's see zerorpc in action with a simple example. In a first terminal,\r\nwe will expose the Python \"time\" module::\r\n\r\n  $ zerorpc --server --bind tcp://*:1234 time\r\n\r\n.. note::\r\n\
+    \   The bind address uses the zeromq address format. You are not limited\r\n   to TCP transport: you could as well specify ipc:///tmp/time to use\r\n   host-local sockets, for instance. \"tcp://*:1234\"\
+    \ is a short-hand to\r\n   \"tcp://0.0.0.0:1234\" and means \"listen on TCP port 1234, accepting \r\n   connections on all IP addresses\".\r\n\r\n\r\nCall the server from the command-line\r\n-------------------------------------\r\
+    \n\r\nNow, in another terminal, call the exposed module::\r\n\r\n  $ zerorpc --client --connect tcp://127.0.0.1:1234 strftime %Y/%m/%d\r\n  Connecting to \"tcp://127.0.0.1:1234\"\r\n  \"2011/03/07\"\
+    \r\n\r\nSince the client usecase is the most common one, \"--client\" is the default\r\nparameter, and you can remove it safely::\r\n\r\n  $ zerorpc --connect tcp://127.0.0.1:1234 strftime %Y/%m/%d\r\
+    \n  Connecting to \"tcp://127.0.0.1:1234\"\r\n  \"2011/03/07\"\r\n\r\nMoreover, since the most common usecase is to *connect* (as opposed to *bind*)\r\nyou can also omit \"--connect\"::\r\n\r\n  $ zerorpc\
+    \ tcp://127.0.0.1:1234 strftime %Y/%m/%d\r\n  Connecting to \"tcp://127.0.0.1:1234\"\r\n  \"2011/03/07\"\r\n\r\n\r\nSee remote service documentation\r\n--------------------------------\r\n\r\nYou can\
+    \ introspect the remote service; it happens automatically if you don't\r\nspecify the name of the function you want to call::\r\n\r\n  $ zerorpc tcp://127.0.0.1:1234\r\n  Connecting to \"tcp://127.0.0.1:1234\"\
+    \r\n  tzset       tzset(zone)\r\n  ctime       ctime(seconds) -> string\r\n  clock       clock() -> floating point number\r\n  struct_time <undocumented>\r\n  time        time() -> floating point number\r\
+    \n  strptime    strptime(string, format) -> struct_time\r\n  gmtime      gmtime([seconds]) -> (tm_year, tm_mon, tm_mday, tm_hour, tm_min,\r\n  mktime      mktime(tuple) -> floating point number\r\n\
+    \  sleep       sleep(seconds)\r\n  asctime     asctime([tuple]) -> string\r\n  strftime    strftime(format[, tuple]) -> string\r\n  localtime   localtime([seconds]) -> (tm_year,tm_mon,tm_mday,tm_hour,tm_min,\r\
+    \n\r\n\r\nSpecifying non-string arguments\r\n-------------------------------\r\n\r\nNow, see what happens if we try to call a function expecting a non-string\r\nargument::\r\n\r\n  $ zerorpc tcp://127.0.0.1:1234\
+    \ sleep 3\r\n  Connecting to \"tcp://127.0.0.1:1234\"\r\n  Traceback (most recent call last):\r\n  [...]\r\n  TypeError: a float is required\r\n\r\nThat's because all command-line arguments are handled\
+    \ as strings. Don't worry,\r\nwe can specify any kind of argument using JSON encoding::\r\n\r\n  $ zerorpc --json tcp://127.0.0.1:1234 sleep 3\r\n  Connecting to \"tcp://127.0.0.1:1234\"\r\n  [wait\
+    \ for 3 seconds...]\r\n  null\r\n\r\n\r\nzeroworkers: reversing bind and connect\r\n---------------------------------------\r\n\r\nSometimes, you don't want your client to connect to the server; you\
+    \ want\r\nyour server to act as a kind of worker, and connect to a hub or queue which\r\nwill dispatch requests. You can achieve this by swapping \"--bind\" and\r\n\"--connect\"::\r\n\r\n  $ zerorpc\
+    \ --bind tcp://*:1234 strftime %Y/%m/%d\r\n\r\nWe now have \"something\" wanting to call the \"strftime\" function, and waiting\r\nfor a worker to connect to it. Let's start the worker::\r\n\r\n  $\
+    \ zerorpc --server tcp://127.0.0.1:1234 time\r\n\r\nThe worker will connect to the listening client and ask him \"what should I \r\ndo?\"; the client will send the \"strftime\" function call; the worker\
+    \ will\r\nexecute it and return the result. The first program will display the\r\nlocal time and exit. The worker will remain running.\r\n\r\n\r\nListening on multiple addresses\r\n-------------------------------\r\
+    \n\r\nWhat if you want to run the same server on multiple addresses? Just repeat\r\nthe \"--bind\" option::\r\n\r\n  $ zerorpc --server --bind tcp://*:1234 --bind ipc:///tmp/time time\r\n\r\nYou can\
+    \ then connect to it using either \"zerorpc tcp://*:1234\" or\r\n\"zerorpc ipc:///tmp/time\".\r\n\r\nWait, there is more! You can even mix \"--bind\" and \"--connect\". That means\r\nthat your server\
+    \ will wait for requests on a given address, *and* connect\r\nas a worker on another. Likewise, you can specify \"--connect\" multiple times,\r\nso your worker will connect to multiple queues. If a\
+    \ queue is not running,\r\nit won't affect the worker (that's the magic of zeromq).\r\n\r\n.. warning:: A client should probably not connect to multiple addresses!\r\n\r\n   Almost all other scenarios\
+    \ will work; but if you ask a client to connect\r\n   to multiple addresses, and at least one of them has no server at the end,\r\n   the client will ultimately block. A client can, however, bind multiple\r\
+    \n   addresses, and will dispatch requests to available workers. If you want\r\n   to connect to multiple remote servers for high availability purposes,\r\n   you insert something like HAProxy in the\
+    \ middle.\r\n\r\n\r\nExposing a zeroservice programmatically\r\n---------------------------------------\r\n\r\nOf course, the command-line is simply a convenience wrapper for the zerorpc\r\npython API.\
+    \ Below are a few examples.\r\n\r\nHere's how to expose an object of your choice as a zeroservice::\r\n\r\n    class Cooler(object):\r\n        \"\"\" Various convenience methods to make things cooler.\
+    \ \"\"\"\r\n\r\n        def add_man(self, sentence):\r\n            \"\"\" End a sentence with \", man!\" to make it sound cooler, and\r\n            return the result. \"\"\"\r\n            return\
+    \ sentence + \", man!\"\r\n    \r\n        def add_42(self, n):\r\n            \"\"\" Add 42 to an integer argument to make it cooler, and return the\r\n            result. \"\"\"\r\n            return\
+    \ n + 42\r\n    \r\n        def boat(self, sentence):\r\n            \"\"\" Replace a sentence with \"I'm on a boat!\", and return that,\r\n            because it's cooler. \"\"\"\r\n            return\
+    \ \"I'm on a boat!\"\r\n    \r\n    import zerorpc\r\n    \r\n    s = zerorpc.Server(Cooler())\r\n    s.bind(\"tcp://0.0.0.0:4242\")\r\n    s.run()\r\n\r\nLet's save this code to *cooler.py* and run\
+    \ it::\r\n\r\n  $ python cooler.py\r\n\r\nNow, in another terminal, let's try connecting to our awesome zeroservice::\r\n\r\n  $ zerorpc -j tcp://localhost:4242 add_42 1\r\n  43\r\n  $ zerorpc tcp://localhost:4242\
+    \ add_man 'I own a mint-condition Volkswagen Golf'\r\n  \"I own a mint-condition Volkswagen Golf, man!\"\r\n  $ zerorpc tcp://localhost:4242 boat 'I own a mint-condition Volkswagen Golf, man!'\r\n \
+    \ \"I'm on a boat!\"\r\n\r\n\r\nCongratulations! You have just made the World a little cooler with your first\r\nzeroservice, man!"
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
