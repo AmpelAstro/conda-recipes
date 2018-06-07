@@ -16,7 +16,7 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -27,6 +27,11 @@ requirements:
   run:
     - python
     - h5py
+    - scipy
+
+test:
+  imports:
+    - catsHTM
 
 about:
   home: https://github.com/maayane/catsHTM
