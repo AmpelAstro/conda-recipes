@@ -1,0 +1,42 @@
+{% set name = "catshtm" %}
+{% set version = "0.1.15" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "437b4d3b91fa603734fa8746493b31bdcbe915a2b96a77112b0dd7965127e8c0" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  #url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  url: https://files.pythonhosted.org/packages/9a/e1/47c6e57a109bb528ba39d0f2ba7b577a0abe6af040f4432d9b17f6cf00aa/catsHTM-0.1.15.tar.gz
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  noarch: python
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - h5py
+  run:
+    - python
+    - h5py
+
+about:
+  home: https://github.com/maayane/catsHTM
+  license: Apache Software License
+  license_family: APACHE
+  license_file: ''
+  summary: fast access to large astronomical catalogs
+  description: ''
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
