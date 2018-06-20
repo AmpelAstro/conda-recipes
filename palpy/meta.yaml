@@ -1,0 +1,40 @@
+{% set name = "palpy" %}
+{% set version = "1.8.1" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "64eda4042b03deb1153cac804b4f7fba19b0d2b3f8ffaeadf10fc51869d5e9d2" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  script: python setup.py install
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+  host:
+    - python
+    - numpy
+    - cython
+    - pytest-runner
+  run:
+    - python
+    - numpy
+
+test:
+  requires:
+    - pytest
+  imports:
+    - palpy
+  #commands:
+  #  - pytest --pyargs healpy
+
