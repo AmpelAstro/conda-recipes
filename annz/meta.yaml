@@ -1,0 +1,49 @@
+{% set name = "annz" %}
+{% set version = "2.3.0" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "4ec643491eef626d47175905863dd814746cf6e514b40d45844241df689e2ad2" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://github.com/IftachSadeh/ANNZ/archive/v{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 1
+  #script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: ROOTSYS=$PREFIX PYTHONPATH=`pwd`/examples:$PYTHONPATH python examples/scripts/annz_singleReg_quick.py --make
+
+requirements:
+  host:
+    - python=3
+    - setuptools
+    - root=6
+    - numpy
+    - mpfr
+    - isl
+  run:
+    - python
+    - root
+
+test:
+  imports:
+    - ANNZ
+
+about:
+  home: https://github.com/IftachSadeh/ANNZ
+  license: GPL3
+  license_family: GPL
+  license_file: ''
+  summary: photometric redshift estimation with TMVA
+  description: ''
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
+
