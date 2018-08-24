@@ -26,7 +26,7 @@ requirements:
     - setuptools
   run:
     - python >=3.6,{{PY_VER}}
-    - ampel-base >={{ version }}
+    - ampel-base >=0.4,<0.5
     - pymongo
     - graphitesend
     - numpy
