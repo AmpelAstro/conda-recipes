@@ -1,24 +1,22 @@
 {% set name = "Ampel-contrib-ZTFbh" %}
 {% set org = "robertdstein" %}
-{% set version = "0.3.1" %}
+{% set version = "0.4.0" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "bb801dc4bb3493248d18c8e396d68cb7fa8a85adabb1af4d45d9f5abc9269832" %}
+{% set hash_value = "3c495b22867bbaef2607ef97be85527405892158e4f465ea4c9f073a28e85d99" %}
 
 package:
   name: '{{ name|lower }}'
   version: '{{ version }}'
 
-#source:
-#  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
-#  url: https://{{ environ.get('GITHUB_USERNAME') }}:{{ environ.get('GITHUB_PASSWORD') }}@github.com/{{ org }}/{{ name }}/archive/v{{ version }}.{{ file_ext }}
-#  '{{ hash_type }}': '{{ hash_value }}'
 source:
-  path: /scratch/jvs/Ampel/ampel-contrib-ztfbh
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://{{ environ.get('GITHUB_USERNAME') }}:{{ environ.get('GITHUB_PASSWORD') }}@github.com/{{ org }}/{{ name }}/archive/v{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
 
 build:
   noarch: python
-  number: 1
+  number: 3
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -30,6 +28,7 @@ requirements:
     - ampel-core >=0.4,<0.5
     - numpy
     - astropy
+    - extcats
     - catshtm==0.1.15
   test:
     - pytest
@@ -41,7 +40,7 @@ test:
     - python -c "from ampel.pipeline.config.ConfigLoader import load_config; load_config()"
 
 about:
-  home: 'https://github.com/AmpelProject/{{ name }}'
+  home: 'https://github.com/{{ org }}/{{ name }}'
   license: UNKNOWN
   license_family: OTHER
   license_file: ''

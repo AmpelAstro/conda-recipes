@@ -1,23 +1,22 @@
 {% set name = "Ampel-contrib-HU" %}
+{% set org = "AmpelProject" %}
 {% set version = "0.4.0" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "bb801dc4bb3493248d18c8e396d68cb7fa8a85adabb1af4d45d9f5abc9269832" %}
+{% set hash_value = "80bb22b26b7bc46401cb800c05a53625b1442360c8eca5f5d844863b28f0d5bd" %}
 
 package:
   name: '{{ name|lower }}'
   version: '{{ version }}'
 
-#source:
-#  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
-#  url: https://{{ environ.get('GITHUB_USERNAME') }}:{{ environ.get('GITHUB_PASSWORD') }}@github.com/AmpelProject/{{ name }}/archive/v{{ version }}.{{ file_ext }}
-#  '{{ hash_type }}': '{{ hash_value }}'
 source:
-  path: /scratch/jvs/Ampel/ampel-contrib-hu
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://{{ environ.get('GITHUB_USERNAME') }}:{{ environ.get('GITHUB_PASSWORD') }}@github.com/{{ org }}/{{ name }}/archive/v{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
 
 build:
   noarch: python
-  number: 1
+  number: 2
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -31,6 +30,7 @@ requirements:
     - extcats
     - catshtm==0.1.15
     - sncosmo
+    - iminuit
     - slackclient
     - aiohttp
   test:
@@ -52,7 +52,7 @@ test:
     - pytest -k test
 
 about:
-  home: 'https://github.com/AmpelProject/{{ name }}'
+  home: 'https://github.com/{{ org }}/{{ name }}'
   license: UNKNOWN
   license_family: OTHER
   license_file: ''
