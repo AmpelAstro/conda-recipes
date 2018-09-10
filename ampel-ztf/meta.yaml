@@ -1,9 +1,9 @@
 {% set name = "Ampel-ZTF" %}
 {% set org = "AmpelProject" %}
-{% set version = "0.4.0" %}
+{% set version = "0.4.1" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "55450f005aa84d08d5bfbac12b6ca4717b257cc4c3e7bb1d11ed818729af8d81" %}
+{% set hash_value = "4d1dcd7335edf7cc2f54c0f39d0c4c6a6891b532e4ab8108338b2ff762b67906" %}
 
 package:
   name: '{{ name|lower }}'
@@ -16,7 +16,7 @@ source:
 
 build:
   noarch: python
-  number: 2
+  number: 0
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
