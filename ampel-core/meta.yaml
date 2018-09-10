@@ -1,9 +1,9 @@
 {% set name = "Ampel-core" %}
 {% set org = "AmpelProject" %}
-{% set version = "0.4.0" %}
+{% set version = "0.4.1" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "28a55d2dfe14bf52cbbd3143ac0a250df0602200a635cad89b9694fe284ba24d" %}
+{% set hash_value = "d53b8a02f78b398a58c4633d1b3f39e4f0844f11e0d256fa146da73153ba3206" %}
 
 package:
   name: '{{ name|lower }}'
@@ -16,7 +16,7 @@ source:
 
 build:
   noarch: python
-  number: 4
+  number: 0
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -24,7 +24,7 @@ requirements:
     - python
     - setuptools
   run:
-    - python >=3.6,{{PY_VER}}
+    - python >=3.6
     - ampel-base >=0.4,<0.5
     - pymongo
     - graphitesend

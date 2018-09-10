@@ -16,7 +16,7 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -24,7 +24,7 @@ requirements:
     - python
     - setuptools
   run:
-    - python >=3.6,{{PY_VER}}
+    - python >=3.6
     - ampel-core >=0.4,<0.5
     - python-confluent-kafka>=0.11.4
     - sqlalchemy

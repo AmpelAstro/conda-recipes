@@ -1,9 +1,9 @@
 {% set name = "Ampel-contrib-HU" %}
 {% set org = "AmpelProject" %}
-{% set version = "0.4.0" %}
+{% set version = "0.4.2" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "80bb22b26b7bc46401cb800c05a53625b1442360c8eca5f5d844863b28f0d5bd" %}
+{% set hash_value = "265f8ed90a84a3e55b6330aee38654b5780edc84c094f771c4d4429eca0685ee" %}
 
 package:
   name: '{{ name|lower }}'
@@ -16,7 +16,7 @@ source:
 
 build:
   noarch: python
-  number: 2
+  number: 0
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -24,7 +24,7 @@ requirements:
     - python
     - setuptools
   run:
-    - python >=3.6,{{PY_VER}}
+    - python >=3.6
     - ampel-core >=0.4,<0.5
     - ampel-ztf >=0.4,<0.5
     - extcats
