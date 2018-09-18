@@ -1,8 +1,8 @@
 {% set name = "extcats" %}
-{% set version = "2.1" %}
+{% set version = "2.3" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "55231795a37d6a70ffa5ec5a3f0e4687a2a5bc7270d3849583964baf17580d53" %}
+{% set hash_value = "734c07d951ee74b0790bb83b09c7621df1251b4989343262ecd5585b998476c2" %}
 
 package:
   name: '{{ name|lower }}'
