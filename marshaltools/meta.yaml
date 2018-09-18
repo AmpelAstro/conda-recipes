@@ -1,0 +1,39 @@
+package:
+  name: marshaltools
+  version: "0.0.3"
+
+source:
+  git_rev: v0.0.3
+  git_url: https://github.com/AmpelProject/marshaltools.git
+
+build:
+  noarch: python
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - astropy
+    - numpy
+    - requests
+    - json
+
+test:
+  imports:
+    - marshaltools
+
+about:
+  home: https://github.com/AmpelProject/marshaltools
+  license: UNKNOWN
+  license_family: OTHER
+  license_file: ''
+  summary: Tools for grabbing LCs and spectra from the growth marshal
+  description: ''
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
