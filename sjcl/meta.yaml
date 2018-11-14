@@ -1,0 +1,52 @@
+{% set name = "sjcl" %}
+{% set version = "0.2.1" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "3761ba01f9f049eaa2f67516054b7bfb2e27fe8bc7c9c630da7168fba58f0c57" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  noarch: python
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - pycryptodome
+  run:
+    - python
+    - pycryptodome
+
+test:
+  imports:
+    - sjcl
+
+about:
+  home: https://github.com/berlincode/sjcl
+  license: BSD License
+  license_family: BSD
+  license_file: ''
+  summary: Decrypt and encrypt messages compatible to the 'Stanford Javascript Crypto Library (SJCL)' message format.
+  description: "Python-SJCL\n===========\n\n[![Travis CI](https://travis-ci.org/berlincode/sjcl.svg?branch=master&style=flat)](https://travis-ci.org/berlincode/sjcl)\n[![Python versions](https://img.shields.io/pypi/pyversions/sjcl.svg)](https://pypi.python.org/pypi/sjcl/)\n\
+    [![new-style BSD](https://img.shields.io/pypi/l/sjcl.svg)](https://github.com/berlincode/sjcl/blob/master/LICENSE.txt)\n\nDecrypt and encrypt messages compatible to the \"Stanford Javascript Crypto\n\
+    Library (SJCL)\" message format. This is a wrapper around pycrypto.\n\nThis module was created while programming and testing the encrypted\nblog platform on cryptedblog.com which is based on sjcl.\n\
+    \nTypical usage may look like this:\n\n```python\n    #!/usr/bin/env python\n\n    from sjcl import SJCL\n\n    cyphertext = SJCL().encrypt(b\"secret message to encrypt\", \"shared_secret\")\n\n   \
+    \ print cyphertext\n    print SJCL().decrypt(cyphertext, \"shared_secret\")\n```\n\nPublic repository\n-----------------\n\n[https://github.com/berlincode/sjcl](https://github.com/berlincode/sjcl)\n\
+    \n\nLicense\n-------\n\nCode and documentation copyright Ulf Bartel. Code is licensed under the\n[new-style BSD license](./LICENSE.txt).\n\n\n\nv0.1.1, 2014-05-21 -- Initial public release.\nv0.1.4,\
+    \ 2016-04-17 -- Re-init of repository after homepage changed.\nv0.1.5, 2016-07-12 -- Python3 compat\nv0.1.6, 2017-07-31 -- Now dependent on pycryptodome\nv0.2.0, 2018-02-22 -- AES-GCM mode support \n\
+    v0.2.1, 2018-08-16 -- Fixed README.md (missing 'b' prefix for use with python3)"
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
