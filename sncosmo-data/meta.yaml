@@ -1,0 +1,28 @@
+
+package:
+  name: 'sncosmo-data'
+  version: '1.6.0'
+
+build:
+  noarch: python
+  number: 0
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - sncosmo
+  run:
+    - sncosmo
+
+about:
+  license: UNKNOWN
+  license_family: OTHER
+  license_file: ''
+  summary: 'Pre-cached data files for sncosmo'
+  description: ''
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
