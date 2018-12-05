@@ -12,6 +12,7 @@ requirements:
     - python
     - setuptools
     - sncosmo
+    - sfdmap
   run:
     # astropy config system wants its config files to be named _exactly_ after the version
     - {{ pin_compatible('astropy', max_pin='x.x.x') }}

@@ -16,6 +16,12 @@ for band in 'ugriz':
 sncosmo.Model('salt2')
 EOF
 
+# download SFD98 map
+wget https://github.com/kbarbary/sfddata/archive/master.tar.gz -O sfddata.tar.gz
+tar xzf sfddata.tar.gz
+mv sfddata-master $XDG_CACHE_HOME/astropy/sfddata
+rm sfddata.tar.gz
+
 # set environment variables at runtime
 mkdir -p $PREFIX/etc/conda/activate.d
 mkdir -p $PREFIX/etc/conda/deactivate.d
