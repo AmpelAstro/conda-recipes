@@ -5,18 +5,18 @@ package:
 
 build:
   noarch: python
-  number: 0
+  number: 1
 
 requirements:
   host:
     - python
     - setuptools
     - sncosmo
-    - sfdmap
   run:
     # astropy config system wants its config files to be named _exactly_ after the version
     - {{ pin_compatible('astropy', max_pin='x.x.x') }}
     - {{ pin_compatible('sncosmo', max_pin='x.x.x') }}
+    - sfdmap
 
 about:
   license: UNKNOWN
