@@ -15,7 +15,7 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   entry_points:
     - zerorpc = zerorpc.cli:main
   script: python setup.py install --single-version-externally-managed --record=record.txt
@@ -24,13 +24,13 @@ requirements:
   host:
     - python
     - setuptools
-    - msgpack-python >=0.4.0
+    - msgpack-python >=0.4.0,<0.7
     - pyzmq >=13.1.0
     - future
     - gevent >=1.1rc5
   run:
     - python
-    - msgpack-python >=0.4.0
+    - msgpack-python >=0.4.0,<0.7
     - pyzmq >=13.1.0
     - future
     - gevent >=1.1rc5
