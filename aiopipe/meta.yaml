@@ -1,0 +1,35 @@
+{% set name = "aiopipe" %}
+{% set version = "0.2.2" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 666282e6e94b8bbd3a49330cd5d4ac95dc217a0d7c2597fb3f43753893a3154d
+
+build:
+  noarch: python
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python >=3.6
+
+about:
+  home: The package home page
+  license: MIT
+  license_family: MIT
+  license_file: 
+  summary: Summary of the package
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - jvansanten
