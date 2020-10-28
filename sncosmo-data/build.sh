@@ -13,6 +13,8 @@ import logging
 logging.basicConfig()
 for band in 'ugriz':
     sncosmo.get_bandpass('sdss::{}'.format(band))
+for band in 'irg':
+    sncosmo.get_bandpass(f'ztf{band}')
 sncosmo.Model('salt2')
 EOF
 
